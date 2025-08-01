@@ -514,18 +514,24 @@ export class LDTKProject {
     return this.k.vec2(level.pxWid, level.pxHei);
   }
 
-  protected loadLayerEntities(layer: LayerInstance, levelPos: Vec2) {
+  protected loadLayerEntities(
+    layer: LayerInstance,
+    levelPos: Vec2,
+    level: Level
+  ) {
     for (const ent of layer.entityInstances) {
+      const fields = level.fieldInstances;
+      fields.push(...ent.fieldInstances);
       const entity = new LDTKEntity({
         name: ent.__identifier,
         pos: this.k.vec2(ent.px[0], ent.px[1]).add(levelPos),
         size: this.k.vec2(ent.width ?? 0, ent.height ?? 0),
-        fieldsRaw: ent.fieldInstances,
+        fieldsRaw: fields,
         LDTKSceneObject: this.rootEntity,
         id: ent.iid,
         assets: this.assets,
         k: this.k,
-        fields: ent.fieldInstances.reduce(
+        fields: fields.reduce(
           (acc, field) => ({ ...acc, [field.__identifier]: field.__value }),
           {}
         ),
@@ -830,7 +836,7 @@ export class LDTKProject {
       }
       for (const layer of level.layerInstances?.reverse() || []) {
         if (layer.__type == Type.Entities)
-          this.loadLayerEntities(layer, levelPos);
+          this.loadLayerEntities(layer, levelPos, level);
         if (layer.__type == Type.IntGrid)
           this.loadIntGridTiles(layer, levelPos);
         if (layer.__type == Type.Tiles || layer.__type == Type.AutoLayer)
