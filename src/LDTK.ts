@@ -617,15 +617,6 @@ export class LDTKProject {
 
       const pos = this.k.vec2(tile.px[0], tile.px[1]).add(levelPos);
 
-      if (
-        pos.x < this.k.getCamPos().x - this.k.width() ||
-        pos.x > this.k.getCamPos().x + this.k.width() ||
-        pos.y < this.k.getCamPos().y - this.k.height() ||
-        pos.y > this.k.getCamPos().y + this.k.height()
-      ) {
-        continue;
-      }
-
       this.rootEntity.onDraw(() =>
         this.k.drawSprite({
           sprite: texAsset,
