@@ -3,6 +3,10 @@ import LDTK from "../src/plugin";
 
 const k = kaplay({
   plugins: [LDTK],
+  width: 320,
+  height: 320,
+  letterbox: true,
+  crisp: true,
 });
 
 const p = k.addLDTKProject();
