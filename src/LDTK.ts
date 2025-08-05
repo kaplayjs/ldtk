@@ -588,6 +588,12 @@ export class LDTKProject {
 
     if (layer.__type == Type.Tiles) tiles = layer.gridTiles;
     if (layer.__type == Type.AutoLayer) tiles = layer.autoLayerTiles;
+    if (layer.__type == Type.IntGrid) {
+      if (layer.autoLayerTiles.length === 0) {
+        return;
+      }
+      tiles = layer.autoLayerTiles;
+    }
 
     if (!this.assets.assetExists(layer.__tilesetRelPath!)) {
       this.throwError(
@@ -830,7 +836,11 @@ export class LDTKProject {
           this.loadLayerEntities(layer, levelPos, level);
         if (layer.__type == Type.IntGrid)
           this.loadIntGridTiles(layer, levelPos);
-        if (layer.__type == Type.Tiles || layer.__type == Type.AutoLayer)
+        if (
+          layer.__type == Type.Tiles ||
+          layer.__type == Type.AutoLayer ||
+          layer.__type == Type.IntGrid
+        )
           this.loadTiles(layer, levelPos);
       }
     }

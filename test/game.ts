@@ -40,4 +40,17 @@ p.registerEntity("Player", (data) => {
   });
 });
 
+k.onUpdate(() => {
+  if (k.isKeyPressed("escape")) {
+    k.scene("cool", async () => {
+      const p = k.addLDTKProject();
+      await p.loadFromURL("./autolayershowcase.ldtk");
+
+      p.spawn();
+    });
+
+    k.go("cool");
+  }
+});
+
 p.spawn();
